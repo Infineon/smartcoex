@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Smart Coex Library: Main Page</title>
+<title>Smart Coex Library: Overview</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -81,10 +81,56 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Smart Coex Library Documentation</div>  </div>
+<div class="title">Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p>Bluetooth Low Energy (BLE) and Wi-Fi operate in the same band, and in some devices, share a single radio. This can cause data transmission on one interface to interfere with the other. Such interference can impact the performance of both Wi-Fi and BLE. In order to avoid such interference, coexistence (coex) configurations and algorithms are introduced in the underlying WLAN and BT stacks. These configurations can be tuned from the application to test and improve the performance of the underlying Wi-Fi and BLE traffic when they are operated simultaneously.</p>
+<p>This library provides an API that allows the user to configure the coex parameters for WLAN and BLE.</p>
+<h1><a class="anchor" id="section_features"></a>
+Features and Functionality</h1>
+<ul>
+<li>Supports Wi-Fi BT coex configuration based on BLE Scan priority. User can set the LE Scan priority, with one of three options - high, medium and low. Based on the priority, the different LE scan parameters are configured.</li>
+</ul>
+<h1><a class="anchor" id="section_supported_frameworks"></a>
+Supported Framework(s)</h1>
+<ul>
+<li>AnyCloud Framework: AnyCloud is a FreeRTOS-based solution. Smart Coex library uses the <a href="https://github.com/cypresssemiconductorco/wifi-connection-manager">wifi-connection-manager</a> library for Wi-Fi network connectivity functions, and <a href="https://github.com/cypresssemiconductorco/bluetooth-freertos">bluetooth-freertos</a> for BLE.</li>
+</ul>
+<h1><a class="anchor" id="section_supported_platforms"></a>
+Supported Platform(s)</h1>
+<h2><a class="anchor" id="section_plat_anycloud"></a>
+AnyCloud</h2>
+<ul>
+<li><a href="https://www.cypress.com/documentation/development-kitsboards/psoc-62s2-wi-fi-bt-pioneer-kit-cy8ckit-062s2-43012">PSoC 62S2 Wi-Fi BT Pioneer Kit (CY8CKIT-062S2-43012)</a></li>
+</ul>
+<h1><a class="anchor" id="section_dependencies"></a>
+Dependent Libraries</h1>
+<h2><a class="anchor" id="section_dep__anycloud"></a>
+AnyCloud</h2>
+<ul>
+<li><a href="https://github.com/cypresssemiconductorco/wifi-connection-manager">Wi-Fi Connection Manager</a></li>
+<li><a href="https://github.com/cypresssemiconductorco/connectivity-utilities">Connectivity Utilities Library</a></li>
+<li><a href="https://github.com/cypresssemiconductorco/bluetooth-freertos">bluetooth-freertos</a></li>
+</ul>
+<h1><a class="anchor" id="section_quick_start"></a>
+Quick Start</h1>
+<p>A set of pre-defined configuration files have been bundled with the wifi-mw-core library for FreeRTOS, lwIP, and mbed TLS. Review the configuration and make the required adjustments. See the "Quick Start" section in <a href="https://github.com/cypresssemiconductorco/wifi-mw-core/blob/master/README.md">README.md</a>.</p>
+<ul>
+<li>Define the following COMPONENTS in the application's Makefile for the Smart Coex library. <div class="fragment"><div class="line">COMPONENTS=FREERTOS MBEDTLS LWIP WCM WICED_BLE</div></div><!-- fragment --></li>
+<li>Add the following compiler directives to the <code>DEFINES</code> section in the application's Makefile: <div class="fragment"><div class="line">DEFINES+=CYBSP_WIFI_CAPABLE</div></div><!-- fragment --></li>
+<li>By default, log messages are disabled by the Smart Coex library. To enable log messages, the application must perform the following:<ul>
+<li>Add the <code>ENABLE_SMARTCOEX_LOGS</code> macro to the <code>DEFINES</code> in the code example's Makefile. The Makefile entry would look like this: <div class="fragment"><div class="line">DEFINES+=ENABLE_SMARTCOEX_LOGS</div></div><!-- fragment --></li>
+<li>Call the <code>cy_log_init()</code> function provided by the <em>cy-log</em> module. cy-log is part of the <em>connectivity-utilities</em> library. See <a href="https://cypresssemiconductorco.github.io/connectivity-utilities/api_reference_manual/html/group__logging__utils.html">connectivity-utilities library API documentation</a> for cy-log details.</li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="section_code_snippet"></a>
+Code Snippets</h1>
+<p>This section provides code snippet for this library on AnyCloud framework.</p>
+<h2><a class="anchor" id="snip1"></a>
+Smart Coex Config on AnyCloud</h2>
+<p>The following snippet demonstrates the usage of the Smart Coex library API, in AnyCloud, to configure the WiFi and BT parameters for operating in coexistence.</p>
+<div class="fragment"><div class="line"></div><div class="line"><span class="preprocessor">#include &quot;cy_smartcoex.h&quot;</span></div><div class="line"><span class="preprocessor">#include &quot;cy_wcm.h&quot;</span></div><div class="line"></div><div class="line"><span class="comment">/******************************************************</span></div><div class="line"><span class="comment"> *                      Macros</span></div><div class="line"><span class="comment"> ******************************************************/</span></div><div class="line"></div><div class="line"><span class="preprocessor">#define APP_INFO( x )                        printf x</span></div><div class="line"><span class="preprocessor">#define APP_DEBUG( x )                       //printf x</span></div><div class="line"><span class="preprocessor">#define APP_ERROR( x )                       printf x</span></div><div class="line"></div><div class="line"><span class="comment">/* BT scan priority */</span></div><div class="line"><span class="preprocessor">#ifndef BT_CONFIG_SCAN_PRIORITY</span></div><div class="line"><span class="preprocessor">#define BT_CONFIG_SCAN_PRIORITY  CY_SMARTCOEX_LESCAN_PRIORITY_MEDIUM</span></div><div class="line"><span class="preprocessor">#endif</span></div><div class="line"></div><div class="line"><span class="comment">/* BT scan interval */</span></div><div class="line"><span class="preprocessor">#ifndef BT_CONFIG_SCAN_INTERVAL</span></div><div class="line"><span class="preprocessor">#define BT_CONFIG_SCAN_INTERVAL  2</span></div><div class="line"><span class="preprocessor">#endif</span></div><div class="line"></div><div class="line"><span class="comment">/* BT scan window */</span></div><div class="line"><span class="preprocessor">#ifndef BT_CONFIG_SCAN_WINDOW</span></div><div class="line"><span class="preprocessor">#define BT_CONFIG_SCAN_WINDOW    1</span></div><div class="line"><span class="preprocessor">#endif</span></div><div class="line"></div><div class="line"><span class="comment">/************************************************************</span></div><div class="line"><span class="comment"> *                       Global Variables                   *</span></div><div class="line"><span class="comment"> ************************************************************/</span></div><div class="line"><span class="comment">/* Smart Coex configuration parameters */</span></div><div class="line"><span class="keyword">static</span> <a class="code" href="structcy__smartcoex__wifi__config__t.html">cy_smartcoex_wifi_config_t</a> wifi_config;</div><div class="line"><span class="keyword">static</span> <a class="code" href="structcy__smartcoex__bt__config__t.html">cy_smartcoex_bt_config_t</a>   bt_config;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> bt_on()</div><div class="line">{</div><div class="line">    <span class="comment">// Add BT stack initialization logic here.</span></div><div class="line"></div><div class="line">    <span class="keywordflow">return</span> 0;</div><div class="line">}</div><div class="line"></div><div class="line">cy_rslt_t smartcoex_config()</div><div class="line">{</div><div class="line">    cy_rslt_t res;</div><div class="line">    <span class="keywordtype">int</span> result;</div><div class="line">    cy_wcm_config_t config;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize wcm.</span></div><div class="line">    config.interface = CY_WCM_INTERFACE_TYPE_STA;</div><div class="line">    res = cy_wcm_init(&amp;config);</div><div class="line">    <span class="keywordflow">if</span>(res != CY_RSLT_SUCCESS)</div><div class="line">    {</div><div class="line">        APP_ERROR((<span class="stringliteral">&quot;cy_wcm_init failed with error:[0x%X]\n&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)res));</div><div class="line">        <span class="keywordflow">return</span> res;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// Initialize the BT stack.</span></div><div class="line">    result = bt_on();</div><div class="line">    <span class="keywordflow">if</span>(result == -1)</div><div class="line">    {</div><div class="line">        APP_ERROR((<span class="stringliteral">&quot;Failed to initialize BT stack.\n&quot;</span>));</div><div class="line">        <span class="keywordflow">return</span> CY_RSLT_MW_ERROR;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// Set up Smart Coex configuration.</span></div><div class="line">    wifi_config.<a class="code" href="structcy__smartcoex__wifi__config__t.html#a93ea1da0bc122a3b520ef39454f8bf64">interface</a> = <a class="code" href="group__group__smartcoex__enums.html#ggaf2f0c7598cb02280aa19ec159c9e63d8a553b06e8343cfde63d4a592f6e6c2c9c">CY_SMARTCOEX_INTERFACE_TYPE_STA</a>;</div><div class="line"></div><div class="line">    bt_config.<a class="code" href="structcy__smartcoex__bt__config__t.html#a60105aef8eb3a79d685557186a3fe1a1">scan_priority</a> = BT_CONFIG_SCAN_PRIORITY;</div><div class="line">    bt_config.<a class="code" href="structcy__smartcoex__bt__config__t.html#aa842e569cf837d2e20926c63a4751bf8">scan_int</a> = BT_CONFIG_SCAN_INTERVAL;</div><div class="line">    bt_config.<a class="code" href="structcy__smartcoex__bt__config__t.html#af04a2c3110529f0a22e57dd31ab9c8c3">scan_win</a> = BT_CONFIG_SCAN_WINDOW;</div><div class="line">    bt_config.<a class="code" href="structcy__smartcoex__bt__config__t.html#a1858571be79a6f80d2cc50bdfdb055cd">btcoex_cb</a> = &amp;btcoex_callback;</div><div class="line"></div><div class="line">    <span class="comment">// Call the Smart Coex API.</span></div><div class="line">    res = <a class="code" href="group__group__smartcoex__functions.html#gac03fe03018e1760385f8409d0706a4dd">cy_smartcoex_config</a>(&amp;wifi_config, &amp;bt_config);</div><div class="line">    <span class="keywordflow">if</span>(res != CY_RSLT_SUCCESS)</div><div class="line">    {</div><div class="line">        APP_ERROR((<span class="stringliteral">&quot;cy_smartcoex_config failed with error:0x%X\n&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)res));</div><div class="line">        <span class="keywordflow">return</span> res;</div><div class="line">    }</div><div class="line">    APP_INFO((<span class="stringliteral">&quot;smart coex config completed.\n&quot;</span>));</div><div class="line"></div><div class="line">}</div><div class="line"></div></div><!-- fragment --></div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath">

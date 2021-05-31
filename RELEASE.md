@@ -6,6 +6,12 @@ See the [README.md](./README.md) for a complete description of the Smart Coex li
 
 ## Changelog
 
+### v2.0.0
+
+- Fixed documentation.
+- Introduced ARMC6 compiler support for AnyCloud build.
+- Integrated with BTSTACK library version v3.X.
+
 ### v1.0.0
 
 - This is the first version of the Smart Coex Library for AnyCloud.
@@ -16,8 +22,8 @@ The current version of the library was validated for compatibility with the foll
 
 | Software and Tools                                      | Version |
 | :---                                                    | :----:  |
-| ModusToolbox Software Environment                       | 2.2     |
-| - ModusToolbox Device Configurator                      | 2.20    |
-| PSoC 6 Peripheral Driver Library (PDL)                  | 2.0.0   |
+| ModusToolbox Software Environment                       | 2.3.1   |
+| PSoC 6 Peripheral Driver Library (PDL)                  | 2.2.0   |
 | GCC Compiler                                            | 9.3.1   |
-| IAR Compiler (only for AnyCloud)                        | 8.32    |
+| IAR Compiler                                            | 8.32    |
+| Arm Compiler 6                                          | 6.14    |

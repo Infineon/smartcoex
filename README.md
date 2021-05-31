@@ -50,7 +50,7 @@ Review the configuration and make the required adjustments. See the "Quick Start
 2. Add the following compiler directives to the `DEFINES` section in the application's Makefile:
 
    ```
-   DEFINES=CYBSP_WIFI_CAPABLE
+   DEFINES+=CYBSP_WIFI_CAPABLE
    ```
 
 3. By default, log messages are disabled by the Smart Coex library. To enable log messages, the application must perform the following:
